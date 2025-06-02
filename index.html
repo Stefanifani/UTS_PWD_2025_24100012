@@ -56,4 +56,73 @@
     <p>&copy; 2025 GlowUp</p>
   </footer>
 </body>
+<script>
+    const locationInput = document.querySelector('input[type="text"]');
+    const locationOutput = document.createElement('div');
+    locationOutput.style.marginTop = '10px';
+    locationOutput.style.color = '#d04894';
+    document.querySelector('.search-form').appendChild(locationOutput);
+    locationInput.addEventListener('input', () => {
+      locationOutput.textContent = locationInput.value.trim ()
+        ? `Lokasi yang diketik: ${locationInput.value}`
+      : '';
+    });
+
+    const searchForm = document.querySelector('.search-form');
+    const categorySelect = document.getElementById('category');
+    searchForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!locationInput.value.trim() || !categorySelect.value) {
+        alert('Harap isi lokasi dan pilih kategori.');
+      } else {
+        alert(`Mencari MUA di ${locationInput.value}, kategori ${categorySelect.value}`);
+        filterMUA(categorySelect.value);
+      }
+    });
+
+    const resultBox = document.createElement('div');
+    resultBox.style.marginTop = '20px';
+    searchForm.appendChild(resultBox);
+    searchForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (locationInput.value.trim() && categorySelect.value) {
+        resultBox.textContent = `Hasil pencarian untuk ${locationInput.value} - ${categorySelect.value}`;
+      }
+    });
+    
+    const features = document.querySelector('.features');
+
+    function addMUA(name, desc) {
+        const div = document.createElement('div');
+        div.className = 'feature-box';
+        div.innerHTML = `<i class="fas fa-user"></i><h3>${name}</h3><p>${desc}</p>`;
+        features.appendChild(div);
+    }
+
+    const MUA_LIST = [
+      { name: 'Nabil Bridal', category: 'Wedding'},
+      { name: 'Meri Studio', category: 'Photoshoot'},
+      { name: 'Karolina Makeover', category: 'Graduation'},
+      { name: 'JOBI TEAM', category: 'Daily Look'},
+    ];
+
+    function filterMUA(kategori) {
+      features.innerHTML = '';
+      MUA_LIST.filter(mua => mua.category === kategori).forEach(mua => {
+        addMUA(mua.name, `kategori: ${mua.category}`);
+      });
+    }
+
+    features.addEventListener('mouseover', e => {
+      if (e.target.closest('.feature-box')) {
+        e.target.closest('.feature-box').style.transform = 'scale(1.05)';
+      }
+    });
+
+    features.addEventListener('mouseout', e => {
+      if (e.target.closest('.feature-box')) {
+        e.target.closest('.feature-box').style.transform = 'scale(1)';
+      }
+    });
+  </script>
 </html>
